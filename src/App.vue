@@ -3,15 +3,18 @@ defineOptions({
   name: 'App',
 })
 
+import { Cookies } from 'quasar'
+
 import { useStoreGlobal } from './stores/storeGlobal.js'
 import { useStoreUser } from './stores/storeUser.js'
 
 const storeGlobal = useStoreGlobal()
 const storeUser = useStoreUser()
 
-const data = window.userAPI.getData
-storeUser.login = data.login
-storeUser.computer = data.computer
+if (Cookies.has('login') && Cookies.has('password')) {
+  storeUser.login = Cookies.get('login')
+  storeUser.password = Cookies.get('password')
+}
 
 storeGlobal.onSocket()
 </script>

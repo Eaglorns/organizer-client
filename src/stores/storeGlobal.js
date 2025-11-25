@@ -1,4 +1,3 @@
-import { Loading } from 'quasar'
 import { io } from 'boot/socket'
 import { defineStore } from 'pinia'
 import { _clone } from 'boot/radash'
@@ -52,7 +51,6 @@ export const useStoreGlobal = defineStore('global', {
         delay: 1,
       },
     },
-    techWork: false,
   }),
   getters: {
     getAjaxUri(state) {
@@ -100,16 +98,6 @@ export const useStoreGlobal = defineStore('global', {
         })
 
         socket.on('load', (data) => {
-          if (data.techWork) {
-            if (data.role < 3) {
-              Loading.show({
-                message: 'Ведутся технические работы.',
-                boxClass: 'bg-grey-2 text-grey-9',
-                spinnerColor: 'primary',
-              })
-            }
-            this.techWork = true
-          }
           storeUser.role = data.role
           this.optionObject = []
           this.optionTypeVico = []
@@ -142,31 +130,6 @@ export const useStoreGlobal = defineStore('global', {
             })
             i++
           })
-        })
-
-        socket.on('techWorkStart', (data) => {
-          if (storeUser.role < 3) {
-            Loading.show({
-              message: 'Ведутся технические работы.',
-              boxClass: 'bg-grey-2 text-grey-9',
-              spinnerColor: 'primary',
-            })
-          }
-          this.techWork = true
-        })
-
-        socket.on('techWorkEnd', (data) => {
-          if (data.type === 0 && storeUser.role < 3) {
-            this.techWork = false
-            if (process.env.MODE === 'electron') {
-              window.appAPI.checkUpdate()
-            }
-          } else if (data.type > 0 && storeUser.role < 3) {
-            Loading.hide()
-            this.techWork = false
-          } else {
-            this.techWork = false
-          }
         })
 
         socket.on('vicoAll', (data) => {
