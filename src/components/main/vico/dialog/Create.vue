@@ -492,7 +492,6 @@ const dialogSave = () => {
       url: storeGlobal.getAjaxUri('vico/create'),
       data: {
         vico: newVico,
-        computer: storeUser.computer,
         login: storeUser.login,
       },
       timeout: 10000,

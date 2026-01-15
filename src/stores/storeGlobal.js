@@ -8,7 +8,7 @@ import { useStoreMain } from '../stores/storeMain.js'
 export const useStoreGlobal = defineStore('global', {
   state: () => ({
     version: '0.1.0',
-    server: 'http://172.16.27.35:3000/',
+    server: 'http://127.0.0.1:3000/',
     optionObject: [],
     optionTypeVico: [],
     optionDepartament: [],

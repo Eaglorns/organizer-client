@@ -594,7 +594,6 @@ const dialogSave = () => {
       data: {
         id: storeMain.selectId,
         vico: vicoEdit,
-        computer: storeUser.computer,
         login: storeUser.login,
       },
       timeout: 10000,

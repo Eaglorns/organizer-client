@@ -82,7 +82,6 @@ const handleSubmit = async () => {
     .then((response) => {
       if (response.data.success) {
         storeUser.isAuth = true
-        storeUser.ip = response.data.ip
         storeUser.role = response.data.role
         Loading.hide()
       } else {

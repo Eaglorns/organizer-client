@@ -223,7 +223,6 @@ const dialogOpen = () => {
       url: storeGlobal.getAjaxUri('vico/one'),
       data: {
         id: storeMain.selectId,
-        computer: storeUser.computer,
         login: storeUser.login,
       },
       timeout: 10000,

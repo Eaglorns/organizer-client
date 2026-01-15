@@ -70,7 +70,6 @@ const dialogSave = () => {
     data: {
       id: storeMain.selectId,
       user: {
-        computer: storeUser.computer,
         login: storeUser.login,
       },
     },
