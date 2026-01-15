@@ -12,79 +12,92 @@
         <q-separator />
 
         <q-card-section>
-          <q-form ref="form">
-            <div class="row q-col-gutter-md items-end">
-              <div class="col-12 col-sm-4 col-md-2">
-                <q-input
-                  v-model="login.loginFirst"
-                  filled
-                  mask="2700"
-                  fill-mask="#"
-                  readonly />
+          <q-form ref="form" @submit.prevent="onClickButtonSelect">
+            <div class="row q-col-gutter-lg items-start">
+              <div class="col-12 col-md-8">
+                <div class="row q-col-gutter-md">
+                  <div class="col-12 col-sm-4">
+                    <q-input
+                      v-model="login.loginFirst"
+                      filled
+                      mask="2700"
+                      fill-mask="#"
+                      readonly />
+                  </div>
+
+                  <div class="col-12 col-sm-8">
+                    <q-input
+                      v-model="login.loginLast"
+                      filled
+                      label="Логин"
+                      mask="##-###"
+                      fill-mask="#"
+                      lazy-rules
+                      :rules="[
+                        () =>
+                          !formValidate.loginLast.$invalid ||
+                          'Не корректно введён логин',
+                      ]" />
+                  </div>
+
+                  <div class="col-12">
+                    <q-select
+                      v-model="role"
+                      outlined
+                      :options="optionsRole"
+                      label="Роль" />
+                  </div>
+                </div>
               </div>
-              <div class="col-12 col-sm-5 col-md-3">
-                <q-input
-                  v-model="login.loginLast"
-                  filled
-                  label="Логин"
-                  mask="##-###"
-                  fill-mask="#"
-                  lazy-rules
-                  :rules="[
-                    () =>
-                      !formValidate.loginLast.$invalid ||
-                      'Не корректно введён логин',
-                  ]" />
-              </div>
-              <div class="col-12 col-sm-3 col-md-3">
-                <q-select
-                  v-model="role"
-                  outlined
-                  :options="optionsRole"
-                  label="Роль" />
-              </div>
+
               <div class="col-12 col-md-4">
-                <div class="admin-actions row q-col-gutter-sm">
-                  <div class="col-12 col-sm-6 col-md-12">
-                    <q-btn
-                      push
-                      color="warning"
-                      class="my-button full-width"
-                      @click="onClickButtonSelect">
-                      <i class="fa-duotone fa-check fa-2x" />&nbsp;&nbsp;
-                      <b>Выбрать</b>
-                    </q-btn>
-                  </div>
-                  <div class="col-12 col-sm-6 col-md-12">
-                    <q-btn
-                      push
-                      color="primary"
-                      class="my-button full-width"
-                      @click="onClickButtonCreate">
-                      <i class="fa-duotone fa-plus fa-2x" />&nbsp;&nbsp;
-                      <b>Создать</b>
-                    </q-btn>
-                  </div>
-                  <div class="col-12 col-sm-6 col-md-12">
-                    <q-btn
-                      push
-                      color="positive"
-                      class="my-button full-width"
-                      @click="onClickButtonSave">
-                      <i class="fa-duotone fa-floppy-disk fa-2x" />&nbsp;&nbsp;
-                      <b>Сохранить</b>
-                    </q-btn>
-                  </div>
-                  <div class="col-12 col-sm-6 col-md-12">
-                    <q-btn
-                      push
-                      color="negative"
-                      class="my-button full-width"
-                      @click="onClickButtonDelete">
-                      <i class="fa-duotone fa-trash fa-2x" />&nbsp;&nbsp;
-                      <b>Удалить</b>
-                    </q-btn>
-                  </div>
+                <div class="admin-actions column q-gutter-sm">
+                  <q-btn
+                    push
+                    dense
+                    size="sm"
+                    type="submit"
+                    color="warning"
+                    class="my-button full-width admin-btn">
+                    <i class="fa-duotone fa-check fa-2x" />&nbsp;&nbsp;
+                    <b>Выбрать</b>
+                  </q-btn>
+
+                  <q-btn
+                    push
+                    dense
+                    size="sm"
+                    type="button"
+                    color="primary"
+                    class="my-button full-width admin-btn"
+                    @click="onClickButtonCreate">
+                    <i class="fa-duotone fa-plus fa-2x" />&nbsp;&nbsp;
+                    <b>Создать</b>
+                  </q-btn>
+
+                  <q-btn
+                    push
+                    dense
+                    size="sm"
+                    type="button"
+                    color="positive"
+                    class="my-button full-width admin-btn"
+                    @click="onClickButtonSave">
+                    <i class="fa-duotone fa-floppy-disk fa-2x" />&nbsp;&nbsp;
+                    <b>Сохранить</b>
+                  </q-btn>
+
+                  <q-btn
+                    push
+                    dense
+                    size="sm"
+                    type="button"
+                    color="negative"
+                    class="my-button full-width admin-btn"
+                    @click="onClickButtonDelete">
+                    <i class="fa-duotone fa-trash fa-2x" />&nbsp;&nbsp;
+                    <b>Удалить</b>
+                  </q-btn>
                 </div>
               </div>
             </div>
@@ -132,8 +145,6 @@ const rules = computed(() => ({
     loginValidate,
   },
 }))
-
-const techWork = computed(() => storeGlobal.techWork)
 
 const form = ref()
 
@@ -207,8 +218,6 @@ const onClickButtonSave = () => {
       url: storeGlobal.getAjaxUri('admin/add'),
       data: {
         login: login.value.loginFirst + login.value.loginLast,
-        computer: storeUser.computer,
-        login: storeUser.login,
       },
       timeout: 10000,
       responseType: 'json',
@@ -251,7 +260,6 @@ const onClickButtonTechWork = () => {
     method: 'post',
     url: storeGlobal.getAjaxUri('admin/techWork'),
     data: {
-      computer: storeUser.computer,
       login: storeUser.login,
       type: numberTechWork.value,
     },
@@ -322,4 +330,7 @@ const onClickButtonDelete = () => {}
 
 .admin-actions
   width: 100%
+
+.admin-btn
+  padding: 6px 10px !important
 </style>

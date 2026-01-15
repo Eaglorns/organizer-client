@@ -137,7 +137,7 @@ const onClickButtonNavigate = (value) => {
 
 const version = computed(() => storeGlobal.version)
 const role = computed(() => storeUser.role)
-const auth = computed(() => storeUser.auth)
+const auth = computed(() => storeUser.isAuth)
 
 const isAuthDialogOpen = ref(false)
 
@@ -146,10 +146,6 @@ const openAuthDialog = () => {
 }
 
 const onAuthSubmit = () => {
-  isAuthDialogOpen.value = false
-}
-
-const onAuthForgot = () => {
   isAuthDialogOpen.value = false
 }
 </script>

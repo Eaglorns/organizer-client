@@ -9,7 +9,7 @@
     class="my-button-group"
     position="bottom-left"
     :offset="[18, 18]">
-    <div v-show="role <= 0">
+    <div v-show="role == 0">
       <q-btn
         class="my-button"
         color="brown-5"
@@ -85,7 +85,7 @@
     class="my-button-group"
     position="bottom-right"
     :offset="[18, 18]">
-    <div v-show="role <= 0">
+    <div v-show="role == 0">
       <q-btn
         push
         class="my-button"

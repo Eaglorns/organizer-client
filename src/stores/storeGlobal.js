@@ -98,7 +98,6 @@ export const useStoreGlobal = defineStore('global', {
         })
 
         socket.on('load', (data) => {
-          storeUser.role = data.role
           this.optionObject = []
           this.optionTypeVico = []
           this.optionDepartament = []

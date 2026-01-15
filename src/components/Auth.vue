@@ -53,7 +53,7 @@ import { api } from 'boot/axios'
 const storeUser = useStoreUser()
 const storeGlobal = useStoreGlobal()
 
-const emit = defineEmits(['submit', 'forgot'])
+const emit = defineEmits(['submit'])
 
 const isPwd = ref(true)
 
@@ -71,7 +71,7 @@ const handleSubmit = async () => {
   Loading.show()
   api({
     method: 'post',
-    url: storeGlobal.getAjaxUri('profile/auth'),
+    url: storeGlobal.getAjaxUri('profile/one'),
     data: {
       login: form.login,
       password: form.password,
@@ -82,7 +82,9 @@ const handleSubmit = async () => {
     .then((response) => {
       if (response.data.success) {
         storeUser.isAuth = true
+        storeUser.login = form.login
         storeUser.role = response.data.role
+        emit('submit')
         Loading.hide()
       } else {
         Notify.create({
