@@ -1,9 +1,3 @@
-<script setup>
-defineOptions({
-  name: 'ErrorNotFound',
-})
-</script>
-
 <template>
   <div
     class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
@@ -23,5 +17,11 @@ defineOptions({
     </div>
   </div>
 </template>
+
+<script setup>
+defineOptions({
+  name: 'ErrorNotFound',
+})
+</script>
 
 <style lang="sass"></style>

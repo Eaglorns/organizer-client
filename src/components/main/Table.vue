@@ -1,3 +1,125 @@
+<template>
+  <div class="q-pa-md">
+    <q-table
+      v-model:selected="selected"
+      v-model:pagination="pagination"
+      selection="single"
+      class="my-sticky-table my-table-border"
+      flat
+      bordered
+      row-key="id"
+      :rows="rows"
+      :columns="columns"
+      :separator="separator"
+      :wrap-cells="true"
+      :hide-bottom="true">
+      <template v-slot:header-cell="props">
+        <q-th :props="props" style="font-size: medium">
+          <span class="text-weight-bold text-indigo-10">
+            {{ props.col.label }}
+          </span>
+        </q-th>
+      </template>
+      <template v-slot:body="props">
+        <q-tr
+          class="my-table-border"
+          :props="props"
+          @click="preSelectAction(props)">
+          <q-td class="my-table-border">
+            <q-checkbox
+              v-model="props.selected"
+              @click="selectAction(props.row.id)" />
+          </q-td>
+          <q-td key="id" :props="props" class="my-table-border">
+            {{ props.row.id }}
+          </q-td>
+          <q-td key="date" :props="props" class="my-table-border">
+            {{ getDate(props.row.dateTimeStart) }}
+          </q-td>
+          <q-td key="timeStart" :props="props" class="my-table-border">
+            {{ getTime(props.row.dateTimeStart) }}
+          </q-td>
+          <q-td key="timeEnd" :props="props" class="my-table-border">
+            {{ getTime(props.row.dateTimeEnd) }}
+          </q-td>
+          <q-td
+            key="objectInitiator"
+            :props="props"
+            class="my-table-border"
+            style="min-width: 250px">
+            <div>
+              {{ props.row.objectInitiator }}
+            </div>
+          </q-td>
+          <q-td
+            key="objectInvited"
+            :props="props"
+            class="my-table-border text-center"
+            style="min-width: 300px">
+            <div class="column">
+              <div
+                class="col"
+                v-for="item in props.row.objectInvited"
+                v-bind:key="item">
+                <div style="border: 1px solid grey; margin: 2px; padding: 2px">
+                  {{ item }}
+                </div>
+              </div>
+            </div>
+          </q-td>
+          <q-td
+            key="typeVico"
+            :props="props"
+            class="my-table-border"
+            style="min-width: 100px">
+            {{ props.row.typeVico }}
+          </q-td>
+          <q-td key="topic" :props="props" class="my-table-border">
+            {{ props.row.topic }}
+          </q-td>
+          <q-td
+            key="departamentInitiator"
+            :props="props"
+            class="my-table-border"
+            style="min-width: 170px">
+            {{ props.row.departamentInitiator }}
+          </q-td>
+          <q-td
+            key="departamentInvited"
+            :props="props"
+            class="my-table-border"
+            style="min-width: 240px">
+            <div class="column">
+              <div
+                class="col"
+                v-for="item in props.row.departamentInvited"
+                v-bind:key="item">
+                <div style="border: 1px solid grey; margin: 2px; padding: 2px">
+                  {{ item }}
+                </div>
+              </div>
+            </div>
+          </q-td>
+          <q-td key="contactName" :props="props" class="my-table-border">
+            {{ props.row.contactName }}
+          </q-td>
+          <q-td key="contactPhone" :props="props" class="my-table-border">
+            {{ props.row.contactPhone }}
+          </q-td>
+          <q-td key="videoRecord" :props="props" class="my-table-border">
+            <span v-if="props.row.videoRecord">
+              <i class="fa-duotone fa-video fa-xl" />
+            </span>
+            <span v-else>
+              <i class="fa-duotone fa-video-slash fa-xl" />
+            </span>
+          </q-td>
+        </q-tr>
+      </template>
+    </q-table>
+  </div>
+</template>
+
 <script setup>
 defineOptions({
   name: 'MainVicoTable',
@@ -122,128 +244,6 @@ const pagination = ref({
   rowsPerPage: 999,
 })
 </script>
-
-<template>
-  <div class="q-pa-md">
-    <q-table
-      v-model:selected="selected"
-      v-model:pagination="pagination"
-      selection="single"
-      class="my-sticky-table my-table-border"
-      flat
-      bordered
-      row-key="id"
-      :rows="rows"
-      :columns="columns"
-      :separator="separator"
-      :wrap-cells="true"
-      :hide-bottom="true">
-      <template v-slot:header-cell="props">
-        <q-th :props="props" style="font-size: medium">
-          <span class="text-weight-bold text-indigo-10">
-            {{ props.col.label }}
-          </span>
-        </q-th>
-      </template>
-      <template v-slot:body="props">
-        <q-tr
-          class="my-table-border"
-          :props="props"
-          @click="preSelectAction(props)">
-          <q-td class="my-table-border">
-            <q-checkbox
-              v-model="props.selected"
-              @click="selectAction(props.row.id)" />
-          </q-td>
-          <q-td key="id" :props="props" class="my-table-border">
-            {{ props.row.id }}
-          </q-td>
-          <q-td key="date" :props="props" class="my-table-border">
-            {{ getDate(props.row.dateTimeStart) }}
-          </q-td>
-          <q-td key="timeStart" :props="props" class="my-table-border">
-            {{ getTime(props.row.dateTimeStart) }}
-          </q-td>
-          <q-td key="timeEnd" :props="props" class="my-table-border">
-            {{ getTime(props.row.dateTimeEnd) }}
-          </q-td>
-          <q-td
-            key="objectInitiator"
-            :props="props"
-            class="my-table-border"
-            style="min-width: 250px">
-            <div>
-              {{ props.row.objectInitiator }}
-            </div>
-          </q-td>
-          <q-td
-            key="objectInvited"
-            :props="props"
-            class="my-table-border text-center"
-            style="min-width: 300px">
-            <div class="column">
-              <div
-                class="col"
-                v-for="item in props.row.objectInvited"
-                v-bind:key="item">
-                <div style="border: 1px solid grey; margin: 2px; padding: 2px">
-                  {{ item }}
-                </div>
-              </div>
-            </div>
-          </q-td>
-          <q-td
-            key="typeVico"
-            :props="props"
-            class="my-table-border"
-            style="min-width: 100px">
-            {{ props.row.typeVico }}
-          </q-td>
-          <q-td key="topic" :props="props" class="my-table-border">
-            {{ props.row.topic }}
-          </q-td>
-          <q-td
-            key="departamentInitiator"
-            :props="props"
-            class="my-table-border"
-            style="min-width: 170px">
-            {{ props.row.departamentInitiator }}
-          </q-td>
-          <q-td
-            key="departamentInvited"
-            :props="props"
-            class="my-table-border"
-            style="min-width: 240px">
-            <div class="column">
-              <div
-                class="col"
-                v-for="item in props.row.departamentInvited"
-                v-bind:key="item">
-                <div style="border: 1px solid grey; margin: 2px; padding: 2px">
-                  {{ item }}
-                </div>
-              </div>
-            </div>
-          </q-td>
-          <q-td key="contactName" :props="props" class="my-table-border">
-            {{ props.row.contactName }}
-          </q-td>
-          <q-td key="contactPhone" :props="props" class="my-table-border">
-            {{ props.row.contactPhone }}
-          </q-td>
-          <q-td key="videoRecord" :props="props" class="my-table-border">
-            <span v-if="props.row.videoRecord">
-              <i class="fa-solid fa-video fa-xl" />
-            </span>
-            <span v-else>
-              <i class="fa-solid fa-video-slash fa-xl" />
-            </span>
-          </q-td>
-        </q-tr>
-      </template>
-    </q-table>
-  </div>
-</template>
 
 <style lang="sass">
 .my-sticky-table

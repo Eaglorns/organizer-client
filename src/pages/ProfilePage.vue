@@ -1,19 +1,3 @@
-<script setup>
-defineOptions({
-  name: 'ProfilePage',
-})
-import { ref, computed } from 'vue'
-import { useStoreGlobal } from '../stores/storeGlobal.js'
-
-const storeGlobal = useStoreGlobal()
-
-const objectInvited = ref([])
-const departamentInvited = ref([])
-
-const optionObject = computed(() => storeGlobal.optionObject)
-const optionDepartament = computed(() => storeGlobal.optionDepartament)
-</script>
-
 <template>
   <div class="q-pa-md">
     <q-card style="min-width: 95vw; top: 10px" flat bordered>
@@ -81,6 +65,22 @@ const optionDepartament = computed(() => storeGlobal.optionDepartament)
     </q-card>
   </div>
 </template>
+
+<script setup>
+defineOptions({
+  name: 'ProfilePage',
+})
+import { ref, computed } from 'vue'
+import { useStoreGlobal } from '../stores/storeGlobal.js'
+
+const storeGlobal = useStoreGlobal()
+
+const objectInvited = ref([])
+const departamentInvited = ref([])
+
+const optionObject = computed(() => storeGlobal.optionObject)
+const optionDepartament = computed(() => storeGlobal.optionDepartament)
+</script>
 
 <style lang="sass">
 .my-select

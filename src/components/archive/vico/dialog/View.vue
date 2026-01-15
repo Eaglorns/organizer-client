@@ -1,112 +1,3 @@
-<script setup>
-defineOptions({
-  name: 'MainVicoDialogView',
-})
-
-import { api } from 'boot/axios'
-import { ref, computed } from 'vue'
-import { Loading, Notify } from 'quasar'
-import { useStoreGlobal } from '../../../../stores/storeGlobal.js'
-import { useStoreArchive } from '../../../../stores/storeArchive.js'
-
-const storeGlobal = useStoreGlobal()
-const storeArchive = useStoreArchive()
-
-const dialog = ref(false)
-
-const optionObject = computed(() => storeGlobal.optionObject)
-const optionTypeVico = computed(() => storeGlobal.optionTypeVico)
-const optionDepartament = computed(() => storeGlobal.optionDepartament)
-
-const vico = ref()
-
-const dialogOpen = () => {
-  Loading.show()
-  if (storeArchive.isSelect) {
-    api({
-      method: 'post',
-      url: storeGlobal.getAjaxUri('archive/one'),
-      data: { id: storeArchive.selectId },
-      timeout: 10000,
-      responseType: 'json',
-    })
-      .then((response) => {
-        if (response.data.success) {
-          vico.value = storeGlobal.getVicoTemplate()
-
-          vico.value.date = storeGlobal.getDate(
-            response.data.vico.dateTimeStart
-          )
-          vico.value.timeStart = storeGlobal.getTime(
-            response.data.vico.dateTimeStart
-          )
-          vico.value.timeEnd = storeGlobal.getTime(
-            response.data.vico.dateTimeEnd
-          )
-
-          vico.value.objectInitiator = response.data.vico.objectInitiator
-          vico.value.objectInvited = response.data.vico.objectInvited
-          vico.value.typeVico = response.data.vico.typeVico
-          vico.value.objectInvited = response.data.vico.objectInvited
-          vico.value.typeVico = response.data.vico.typeVico
-          vico.value.topic = response.data.vico.topic
-          vico.value.departamentInitiator =
-            response.data.vico.departamentInitiator
-          vico.value.departamentInvited = response.data.vico.departamentInvited
-          vico.value.contactName = response.data.vico.contactName
-          vico.value.contactPhone = response.data.vico.contactPhone
-
-          dialog.value = true
-          Loading.hide()
-        } else {
-          Notify.create({
-            progress: true,
-            color: 'negative',
-            position: 'top',
-            message: '<b>' + response.data.message + '</b>',
-            icon: 'fa-solid fa-rectangle-xmark',
-            timeout: storeGlobal.messagesErrorTime.high,
-            textColor: 'black',
-            html: true,
-          })
-          Loading.hide()
-        }
-      })
-      .catch(function () {
-        Notify.create({
-          color: 'negative',
-          position: 'top',
-          message: '<b>Нет соединения с сервером.</b>',
-          icon: 'fa-solid fa-rectangle-xmark',
-          timeout: storeGlobal.messagesErrorTime.medium,
-          textColor: 'black',
-          html: true,
-        })
-        Loading.hide()
-      })
-  } else {
-    Notify.create({
-      color: 'warning',
-      position: 'top',
-      message: '<b>Отсутствует выделение записи ВКС</b>',
-      icon: 'fa-solid fa-triangle-exclamation',
-      timeout: storeGlobal.messagesErrorTime.low,
-      textColor: 'black',
-      html: true,
-    })
-    Loading.hide()
-  }
-}
-
-const dialogClose = () => {
-  dialog.value = false
-}
-
-defineExpose({
-  dialogOpen,
-})
-</script>
-
 <template>
   <q-dialog v-model="dialog" persistent>
     <q-card style="min-width: 95vw" flat bordered>
@@ -286,6 +177,115 @@ defineExpose({
     </q-card>
   </q-dialog>
 </template>
+
+<script setup>
+defineOptions({
+  name: 'MainVicoDialogView',
+})
+
+import { api } from 'boot/axios'
+import { ref, computed } from 'vue'
+import { Loading, Notify } from 'quasar'
+import { useStoreGlobal } from '../../../../stores/storeGlobal.js'
+import { useStoreArchive } from '../../../../stores/storeArchive.js'
+
+const storeGlobal = useStoreGlobal()
+const storeArchive = useStoreArchive()
+
+const dialog = ref(false)
+
+const optionObject = computed(() => storeGlobal.optionObject)
+const optionTypeVico = computed(() => storeGlobal.optionTypeVico)
+const optionDepartament = computed(() => storeGlobal.optionDepartament)
+
+const vico = ref()
+
+const dialogOpen = () => {
+  Loading.show()
+  if (storeArchive.isSelect) {
+    api({
+      method: 'post',
+      url: storeGlobal.getAjaxUri('archive/one'),
+      data: { id: storeArchive.selectId },
+      timeout: 10000,
+      responseType: 'json',
+    })
+      .then((response) => {
+        if (response.data.success) {
+          vico.value = storeGlobal.getVicoTemplate()
+
+          vico.value.date = storeGlobal.getDate(
+            response.data.vico.dateTimeStart
+          )
+          vico.value.timeStart = storeGlobal.getTime(
+            response.data.vico.dateTimeStart
+          )
+          vico.value.timeEnd = storeGlobal.getTime(
+            response.data.vico.dateTimeEnd
+          )
+
+          vico.value.objectInitiator = response.data.vico.objectInitiator
+          vico.value.objectInvited = response.data.vico.objectInvited
+          vico.value.typeVico = response.data.vico.typeVico
+          vico.value.objectInvited = response.data.vico.objectInvited
+          vico.value.typeVico = response.data.vico.typeVico
+          vico.value.topic = response.data.vico.topic
+          vico.value.departamentInitiator =
+            response.data.vico.departamentInitiator
+          vico.value.departamentInvited = response.data.vico.departamentInvited
+          vico.value.contactName = response.data.vico.contactName
+          vico.value.contactPhone = response.data.vico.contactPhone
+
+          dialog.value = true
+          Loading.hide()
+        } else {
+          Notify.create({
+            progress: true,
+            color: 'negative',
+            position: 'top',
+            message: '<b>' + response.data.message + '</b>',
+            icon: 'fa-duotone fa-rectangle-xmark',
+            timeout: storeGlobal.messagesErrorTime.high,
+            textColor: 'black',
+            html: true,
+          })
+          Loading.hide()
+        }
+      })
+      .catch(function () {
+        Notify.create({
+          color: 'negative',
+          position: 'top',
+          message: '<b>Нет соединения с сервером.</b>',
+          icon: 'fa-duotone fa-rectangle-xmark',
+          timeout: storeGlobal.messagesErrorTime.medium,
+          textColor: 'black',
+          html: true,
+        })
+        Loading.hide()
+      })
+  } else {
+    Notify.create({
+      color: 'warning',
+      position: 'top',
+      message: '<b>Отсутствует выделение записи ВКС</b>',
+      icon: 'fa-duotone fa-triangle-exclamation',
+      timeout: storeGlobal.messagesErrorTime.low,
+      textColor: 'black',
+      html: true,
+    })
+    Loading.hide()
+  }
+}
+
+const dialogClose = () => {
+  dialog.value = false
+}
+
+defineExpose({
+  dialogOpen,
+})
+</script>
 
 <style lang="sass">
 .q-field__label

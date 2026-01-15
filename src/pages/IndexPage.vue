@@ -1,3 +1,165 @@
+<template>
+  <MainTable />
+  <MainVicoDialogOne ref="mainVicoDialogOne" />
+  <MainVicoDialogCreate ref="mainVicoDialogCreate" />
+  <MainVicoDialogUpdate ref="mainVicoDialogUpdate" />
+  <MainVicoDialogArchive ref="mainVicoDialogArchive" />
+  <MainVicoDialogDelete ref="mainVicoDialogDelete" />
+  <q-page-sticky
+    class="my-button-group"
+    position="bottom-left"
+    :offset="[18, 18]">
+    <div v-show="role <= 0">
+      <q-btn
+        class="my-button"
+        color="brown-5"
+        text-color="grey-9"
+        @click="mainVicoDialogOne.dialogOpen()">
+        <i class="fa-duotone fa-eye">
+          <q-tooltip
+            transition-show="scale"
+            transition-hide="scale"
+            class="text-body1"
+            anchor="top middle"
+            self="center middle">
+            Посмотреть
+          </q-tooltip>
+        </i>
+      </q-btn>
+    </div>
+    <q-btn-group v-show="role > 0" push>
+      <q-btn
+        push
+        class="my-button"
+        color="brown-5"
+        text-color="grey-9"
+        @click="mainVicoDialogOne.dialogOpen()">
+        <i class="fa-duotone fa-eye">
+          <q-tooltip
+            transition-show="scale"
+            transition-hide="scale"
+            class="text-body1"
+            anchor="top middle"
+            self="center middle">
+            Посмотреть
+          </q-tooltip>
+        </i>
+      </q-btn>
+      <q-btn
+        push
+        class="my-button"
+        color="green"
+        text-color="grey-9"
+        @click="mainVicoDialogCreate.dialogOpen()">
+        <i class="fa-duotone fa-plus">
+          <q-tooltip
+            transition-show="scale"
+            transition-hide="scale"
+            class="text-body1"
+            anchor="top middle"
+            self="center middle">
+            Создать
+          </q-tooltip>
+        </i>
+      </q-btn>
+      <q-btn
+        push
+        class="my-button"
+        color="orange"
+        text-color="grey-9"
+        @click="mainVicoDialogUpdate.dialogOpen()">
+        <i class="fa-duotone fa-pen">
+          <q-tooltip
+            transition-show="scale"
+            transition-hide="scale"
+            class="text-body1"
+            anchor="top middle"
+            self="center middle">
+            Редактировать
+          </q-tooltip>
+        </i>
+      </q-btn>
+    </q-btn-group>
+  </q-page-sticky>
+  <q-page-sticky
+    class="my-button-group"
+    position="bottom-right"
+    :offset="[18, 18]">
+    <div v-show="role <= 0">
+      <q-btn
+        push
+        class="my-button"
+        color="green"
+        text-color="grey-9"
+        @click="updateTable">
+        <i class="fa-duotone fa-arrows-rotate">
+          <q-tooltip
+            transition-show="scale"
+            transition-hide="scale"
+            class="text-body1"
+            anchor="top middle"
+            self="center middle">
+            Обновить страницу
+          </q-tooltip>
+        </i>
+      </q-btn>
+    </div>
+    <q-btn-group v-show="role > 0" push>
+      <q-btn
+        push
+        class="my-button"
+        color="green"
+        text-color="grey-9"
+        @click="updateTable">
+        <i class="fa-duotone fa-arrows-rotate">
+          <q-tooltip
+            transition-show="scale"
+            transition-hide="scale"
+            class="text-body1"
+            anchor="top middle"
+            self="center middle">
+            Обновить страницу
+          </q-tooltip>
+        </i>
+      </q-btn>
+      <q-btn
+        push
+        class="my-button"
+        color="blue"
+        text-color="grey-9"
+        @click="mainVicoDialogArchive.dialogOpen()">
+        <i class="fa-duotone fa-box-archive">
+          <q-tooltip
+            transition-show="scale"
+            transition-hide="scale"
+            class="text-body1"
+            anchor="top middle"
+            self="center middle">
+            Архивировать
+          </q-tooltip>
+        </i>
+      </q-btn>
+      <q-btn
+        push
+        class="my-button"
+        color="red"
+        text-color="grey-9"
+        @click="mainVicoDialogDelete.dialogOpen()">
+        <i class="fa-duotone fa-trash">
+          <q-tooltip
+            transition-show="scale"
+            transition-hide="scale"
+            class="text-body1"
+            anchor="top middle"
+            self="center middle">
+            Удалить
+          </q-tooltip>
+        </i>
+      </q-btn>
+    </q-btn-group>
+  </q-page-sticky>
+</template>
+
 <script setup>
 defineOptions({
   name: 'IndexPage',
@@ -52,8 +214,7 @@ const updateTable = () => {
         })
       } else {
         if (
-          response.data.vicos.find((item) => item.id === storeMain.selectId) ===
-          undefined
+          !response.data.vicos.some((item) => item.id === storeMain.selectId)
         ) {
           storeMain.selectId = -1
           storeMain.isSelect = false
@@ -68,175 +229,13 @@ const updateTable = () => {
         color: 'negative',
         position: 'top',
         message: 'Нет соединения с сервером.',
-        icon: 'fa-solid fa-rectangle-xmark',
+        icon: 'fa-duotone fa-rectangle-xmark',
         timeout: storeGlobal.messagesErrorTime.medium,
       })
       Loading.hide()
     })
 }
 </script>
-
-<template>
-  <MainTable />
-  <MainVicoDialogOne ref="mainVicoDialogOne" />
-  <MainVicoDialogCreate ref="mainVicoDialogCreate" />
-  <MainVicoDialogUpdate ref="mainVicoDialogUpdate" />
-  <MainVicoDialogArchive ref="mainVicoDialogArchive" />
-  <MainVicoDialogDelete ref="mainVicoDialogDelete" />
-  <q-page-sticky
-    class="my-button-group"
-    position="bottom-left"
-    :offset="[18, 18]">
-    <div v-show="role <= 0">
-      <q-btn
-        class="my-button"
-        color="brown-5"
-        text-color="grey-9"
-        @click="mainVicoDialogOne.dialogOpen()">
-        <i class="fa-solid fa-eye">
-          <q-tooltip
-            transition-show="scale"
-            transition-hide="scale"
-            class="text-body1"
-            anchor="top middle"
-            self="center middle">
-            Посмотреть
-          </q-tooltip>
-        </i>
-      </q-btn>
-    </div>
-    <q-btn-group v-show="role > 0" push>
-      <q-btn
-        push
-        class="my-button"
-        color="brown-5"
-        text-color="grey-9"
-        @click="mainVicoDialogOne.dialogOpen()">
-        <i class="fa-solid fa-eye">
-          <q-tooltip
-            transition-show="scale"
-            transition-hide="scale"
-            class="text-body1"
-            anchor="top middle"
-            self="center middle">
-            Посмотреть
-          </q-tooltip>
-        </i>
-      </q-btn>
-      <q-btn
-        push
-        class="my-button"
-        color="green"
-        text-color="grey-9"
-        @click="mainVicoDialogCreate.dialogOpen()">
-        <i class="fa-solid fa-plus">
-          <q-tooltip
-            transition-show="scale"
-            transition-hide="scale"
-            class="text-body1"
-            anchor="top middle"
-            self="center middle">
-            Создать
-          </q-tooltip>
-        </i>
-      </q-btn>
-      <q-btn
-        push
-        class="my-button"
-        color="orange"
-        text-color="grey-9"
-        @click="mainVicoDialogUpdate.dialogOpen()">
-        <i class="fa-solid fa-pen">
-          <q-tooltip
-            transition-show="scale"
-            transition-hide="scale"
-            class="text-body1"
-            anchor="top middle"
-            self="center middle">
-            Редактировать
-          </q-tooltip>
-        </i>
-      </q-btn>
-    </q-btn-group>
-  </q-page-sticky>
-  <q-page-sticky
-    class="my-button-group"
-    position="bottom-right"
-    :offset="[18, 18]">
-    <div v-show="role <= 0">
-      <q-btn
-        push
-        class="my-button"
-        color="green"
-        text-color="grey-9"
-        @click="updateTable">
-        <i class="fa-solid fa-arrows-rotate">
-          <q-tooltip
-            transition-show="scale"
-            transition-hide="scale"
-            class="text-body1"
-            anchor="top middle"
-            self="center middle">
-            Обновить страницу
-          </q-tooltip>
-        </i>
-      </q-btn>
-    </div>
-    <q-btn-group v-show="role > 0" push>
-      <q-btn
-        push
-        class="my-button"
-        color="green"
-        text-color="grey-9"
-        @click="updateTable">
-        <i class="fa-solid fa-arrows-rotate">
-          <q-tooltip
-            transition-show="scale"
-            transition-hide="scale"
-            class="text-body1"
-            anchor="top middle"
-            self="center middle">
-            Обновить страницу
-          </q-tooltip>
-        </i>
-      </q-btn>
-      <q-btn
-        push
-        class="my-button"
-        color="blue"
-        text-color="grey-9"
-        @click="mainVicoDialogArchive.dialogOpen()">
-        <i class="fa-solid fa-box-archive">
-          <q-tooltip
-            transition-show="scale"
-            transition-hide="scale"
-            class="text-body1"
-            anchor="top middle"
-            self="center middle">
-            Архивировать
-          </q-tooltip>
-        </i>
-      </q-btn>
-      <q-btn
-        push
-        class="my-button"
-        color="red"
-        text-color="grey-9"
-        @click="mainVicoDialogDelete.dialogOpen()">
-        <i class="fa-solid fa-trash">
-          <q-tooltip
-            transition-show="scale"
-            transition-hide="scale"
-            class="text-body1"
-            anchor="top middle"
-            self="center middle">
-            Удалить
-          </q-tooltip>
-        </i>
-      </q-btn>
-    </q-btn-group>
-  </q-page-sticky>
-</template>
 
 <style lang="sass">
 .my-button-group

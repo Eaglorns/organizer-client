@@ -1,3 +1,30 @@
+<template>
+  <q-dialog v-model="dialog" persistent>
+    <q-card>
+      <q-card-section class="row items-center">
+        <q-avatar color="red" text-color="white">
+          <i class="fa-duotone fa-trash" />
+        </q-avatar>
+        <span class="q-ml-sm"
+          >Подтвердите действие удаления записи об ВКС.</span
+        >
+      </q-card-section>
+      <q-card-actions align="right">
+        <q-btn
+          label="Отмена"
+          color="primary"
+          text-color="white"
+          @click="dialogClose" />
+        <q-btn
+          label="Удалить"
+          color="negative"
+          text-color="white"
+          @click="dialogSave" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+</template>
+
 <script setup>
 defineOptions({
   name: 'MainVicoDialogDelete',
@@ -26,7 +53,7 @@ const dialogOpen = () => {
       color: 'warning',
       position: 'top',
       message: '<b>Отсутствует выделение записи ВКС</b>',
-      icon: 'fa-solid fa-triangle-exclamation',
+      icon: 'fa-duotone fa-triangle-exclamation',
       timeout: storeGlobal.messagesErrorTime.low,
       textColor: 'black',
       html: true,
@@ -60,7 +87,7 @@ const dialogSave = () => {
           color: 'negative',
           position: 'top',
           message: '<b>' + response.data.message + '</b>',
-          icon: 'fa-solid fa-rectangle-xmark',
+          icon: 'fa-duotone fa-rectangle-xmark',
           timeout: storeGlobal.messagesErrorTime.low,
           textColor: 'black',
           html: true,
@@ -73,7 +100,7 @@ const dialogSave = () => {
         color: 'negative',
         position: 'top',
         message: '<b>Нет соединения с сервером.</b>',
-        icon: 'fa-solid fa-rectangle-xmark',
+        icon: 'fa-duotone fa-rectangle-xmark',
         timeout: storeGlobal.messagesErrorTime.medium,
         textColor: 'black',
         html: true,
@@ -90,32 +117,5 @@ defineExpose({
   dialogOpen,
 })
 </script>
-
-<template>
-  <q-dialog v-model="dialog" persistent>
-    <q-card>
-      <q-card-section class="row items-center">
-        <q-avatar color="red" text-color="white">
-          <i class="fa-duotone fa-trash" />
-        </q-avatar>
-        <span class="q-ml-sm"
-          >Подтвердите действие удаления записи об ВКС.</span
-        >
-      </q-card-section>
-      <q-card-actions align="right">
-        <q-btn
-          label="Отмена"
-          color="primary"
-          text-color="white"
-          @click="dialogClose" />
-        <q-btn
-          label="Удалить"
-          color="negative"
-          text-color="white"
-          @click="dialogSave" />
-      </q-card-actions>
-    </q-card>
-  </q-dialog>
-</template>
 
 <style lang="sass"></style>

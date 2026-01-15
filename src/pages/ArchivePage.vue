@@ -1,16 +1,3 @@
-<script setup>
-defineOptions({
-  name: 'ArchivePage',
-})
-
-import { ref } from 'vue'
-
-import ArchiveTable from 'components/archive/Table.vue'
-import ArchiveVicoDialogView from 'components/archive/vico/dialog/View.vue'
-
-const archiveVicoDialogView = ref(null)
-</script>
-
 <template>
   <ArchiveTable />
   <ArchiveVicoDialogView ref="archiveVicoDialogView" />
@@ -25,7 +12,7 @@ const archiveVicoDialogView = ref(null)
         color="brown-5"
         text-color="grey-9"
         @click="archiveVicoDialogView.dialogOpen()">
-        <i class="fa-solid fa-eye">
+        <i class="fa-duotone fa-eye">
           <q-tooltip
             transition-show="scale"
             transition-hide="scale"
@@ -39,6 +26,19 @@ const archiveVicoDialogView = ref(null)
     </q-btn-group>
   </q-page-sticky>
 </template>
+
+<script setup>
+defineOptions({
+  name: 'ArchivePage',
+})
+
+import { ref } from 'vue'
+
+import ArchiveTable from 'components/archive/Table.vue'
+import ArchiveVicoDialogView from 'components/archive/vico/dialog/View.vue'
+
+const archiveVicoDialogView = ref(null)
+</script>
 
 <style lang="sass">
 .my-button-group

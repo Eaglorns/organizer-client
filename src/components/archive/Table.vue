@@ -1,124 +1,3 @@
-<script setup>
-defineOptions({
-  name: 'MainVicoTable',
-})
-
-import { ref, computed } from 'vue'
-import { useStoreArchive } from '../../stores/storeArchive'
-import { useStoreGlobal } from '../../stores/storeGlobal'
-
-const storeArchive = useStoreArchive()
-const storeGlobal = useStoreGlobal()
-
-const columns = [
-  {
-    name: 'id',
-    required: true,
-    label: 'ID',
-    align: 'left',
-    field: (row) => row.id,
-    format: (val) => `${val}`,
-    style: 'display: none; font-size: 12px;',
-  },
-  {
-    name: 'date',
-    align: 'center',
-    label: 'Дата',
-    field: 'date',
-  },
-  {
-    name: 'timeStart',
-    align: 'center',
-    label: 'Время начала ВКС',
-    field: 'timeStart',
-  },
-  {
-    name: 'timeEnd',
-    align: 'center',
-    label: 'Время окончания ВКС',
-    field: 'timeEnd',
-  },
-  {
-    name: 'objectInitiator',
-    align: 'center',
-    label: 'Обособленное подразделение инцииатор ВКС',
-    field: 'objectInitiator',
-  },
-  {
-    name: 'objectInvited',
-    align: 'center',
-    label: 'Вызываемые обособленные подразделения',
-    field: 'objectInvited',
-  },
-  {
-    name: 'typeVico',
-    align: 'center',
-    label: 'Тип совещания',
-    field: 'typeVico',
-  },
-  {
-    name: 'topic',
-    align: 'center',
-    label: 'Тема совещания',
-    field: 'topic',
-  },
-  {
-    name: 'departamentInitiator',
-    align: 'center',
-    label: 'Отдел инициатор ВКС',
-    field: 'departamentInitiator',
-  },
-  {
-    name: 'departamentInvited',
-    align: 'center',
-    label: 'Приглашенные отделы',
-    field: 'departamentInvited',
-  },
-  {
-    name: 'contactName',
-    align: 'center',
-    label: 'ФИО инициатора ВКС',
-    field: 'contactName',
-  },
-  {
-    name: 'contactPhone',
-    align: 'center',
-    label: 'Контактный номер телефона инициатора ВКС',
-    field: 'contactPhone',
-  },
-]
-
-const rows = computed(() => storeArchive.vicos)
-
-const selected = ref([])
-
-const preSelectAction = (props) => {
-  props.selected = !props.selected
-  selectAction(props.row.id)
-}
-
-const selectAction = (rowId) => {
-  if (storeArchive.selectId === rowId && storeArchive.isSelect === true) {
-    storeArchive.selectId = -1
-    storeArchive.isSelect = false
-  } else {
-    storeArchive.selectId = rowId
-    storeArchive.isSelect = true
-  }
-}
-
-const getDate = storeGlobal.getDate
-const getTime = storeGlobal.getTime
-
-const separator = 'cell'
-const pagination = ref({
-  sortBy: 'desc',
-  descending: false,
-  page: 1,
-  rowsPerPage: 10,
-})
-</script>
-
 <template>
   <div class="q-pa-md">
     <q-table
@@ -266,6 +145,127 @@ const pagination = ref({
     </q-table>
   </div>
 </template>
+
+<script setup>
+defineOptions({
+  name: 'MainVicoTable',
+})
+
+import { ref, computed } from 'vue'
+import { useStoreArchive } from '../../stores/storeArchive'
+import { useStoreGlobal } from '../../stores/storeGlobal'
+
+const storeArchive = useStoreArchive()
+const storeGlobal = useStoreGlobal()
+
+const columns = [
+  {
+    name: 'id',
+    required: true,
+    label: 'ID',
+    align: 'left',
+    field: (row) => row.id,
+    format: (val) => `${val}`,
+    style: 'display: none; font-size: 12px;',
+  },
+  {
+    name: 'date',
+    align: 'center',
+    label: 'Дата',
+    field: 'date',
+  },
+  {
+    name: 'timeStart',
+    align: 'center',
+    label: 'Время начала ВКС',
+    field: 'timeStart',
+  },
+  {
+    name: 'timeEnd',
+    align: 'center',
+    label: 'Время окончания ВКС',
+    field: 'timeEnd',
+  },
+  {
+    name: 'objectInitiator',
+    align: 'center',
+    label: 'Обособленное подразделение инцииатор ВКС',
+    field: 'objectInitiator',
+  },
+  {
+    name: 'objectInvited',
+    align: 'center',
+    label: 'Вызываемые обособленные подразделения',
+    field: 'objectInvited',
+  },
+  {
+    name: 'typeVico',
+    align: 'center',
+    label: 'Тип совещания',
+    field: 'typeVico',
+  },
+  {
+    name: 'topic',
+    align: 'center',
+    label: 'Тема совещания',
+    field: 'topic',
+  },
+  {
+    name: 'departamentInitiator',
+    align: 'center',
+    label: 'Отдел инициатор ВКС',
+    field: 'departamentInitiator',
+  },
+  {
+    name: 'departamentInvited',
+    align: 'center',
+    label: 'Приглашенные отделы',
+    field: 'departamentInvited',
+  },
+  {
+    name: 'contactName',
+    align: 'center',
+    label: 'ФИО инициатора ВКС',
+    field: 'contactName',
+  },
+  {
+    name: 'contactPhone',
+    align: 'center',
+    label: 'Контактный номер телефона инициатора ВКС',
+    field: 'contactPhone',
+  },
+]
+
+const rows = computed(() => storeArchive.vicos)
+
+const selected = ref([])
+
+const preSelectAction = (props) => {
+  props.selected = !props.selected
+  selectAction(props.row.id)
+}
+
+const selectAction = (rowId) => {
+  if (storeArchive.selectId === rowId && storeArchive.isSelect === true) {
+    storeArchive.selectId = -1
+    storeArchive.isSelect = false
+  } else {
+    storeArchive.selectId = rowId
+    storeArchive.isSelect = true
+  }
+}
+
+const getDate = storeGlobal.getDate
+const getTime = storeGlobal.getTime
+
+const separator = 'cell'
+const pagination = ref({
+  sortBy: 'desc',
+  descending: false,
+  page: 1,
+  rowsPerPage: 10,
+})
+</script>
 
 <style lang="sass">
 .my-sticky-table

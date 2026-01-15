@@ -1,3 +1,100 @@
+<template>
+  <q-page class="admin-page q-pa-md">
+    <div class="column q-gutter-md">
+      <q-card class="admin-card" flat bordered>
+        <q-card-section>
+          <div class="text-h6">Управление пользователями</div>
+          <div class="text-caption text-grey-6">
+            Поиск, создание и управление ролями
+          </div>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section>
+          <q-form ref="form">
+            <div class="row q-col-gutter-md items-end">
+              <div class="col-12 col-sm-4 col-md-2">
+                <q-input
+                  v-model="login.loginFirst"
+                  filled
+                  mask="2700"
+                  fill-mask="#"
+                  readonly />
+              </div>
+              <div class="col-12 col-sm-5 col-md-3">
+                <q-input
+                  v-model="login.loginLast"
+                  filled
+                  label="Логин"
+                  mask="##-###"
+                  fill-mask="#"
+                  lazy-rules
+                  :rules="[
+                    () =>
+                      !formValidate.loginLast.$invalid ||
+                      'Не корректно введён логин',
+                  ]" />
+              </div>
+              <div class="col-12 col-sm-3 col-md-3">
+                <q-select
+                  v-model="role"
+                  outlined
+                  :options="optionsRole"
+                  label="Роль" />
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="admin-actions row q-col-gutter-sm">
+                  <div class="col-12 col-sm-6 col-md-12">
+                    <q-btn
+                      push
+                      color="warning"
+                      class="my-button full-width"
+                      @click="onClickButtonSelect">
+                      <i class="fa-duotone fa-check fa-2x" />&nbsp;&nbsp;
+                      <b>Выбрать</b>
+                    </q-btn>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-12">
+                    <q-btn
+                      push
+                      color="primary"
+                      class="my-button full-width"
+                      @click="onClickButtonCreate">
+                      <i class="fa-duotone fa-plus fa-2x" />&nbsp;&nbsp;
+                      <b>Создать</b>
+                    </q-btn>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-12">
+                    <q-btn
+                      push
+                      color="positive"
+                      class="my-button full-width"
+                      @click="onClickButtonSave">
+                      <i class="fa-duotone fa-floppy-disk fa-2x" />&nbsp;&nbsp;
+                      <b>Сохранить</b>
+                    </q-btn>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-12">
+                    <q-btn
+                      push
+                      color="negative"
+                      class="my-button full-width"
+                      @click="onClickButtonDelete">
+                      <i class="fa-duotone fa-trash fa-2x" />&nbsp;&nbsp;
+                      <b>Удалить</b>
+                    </q-btn>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </div>
+  </q-page>
+</template>
+
 <script setup>
 defineOptions({
   name: 'AdminPage',
@@ -213,114 +310,16 @@ const onClickButtonTechWork = () => {
 const onClickButtonDelete = () => {}
 </script>
 
-<template>
-  <div class="q-pa-md items-start">
-    <q-card>
-      <q-form ref="form">
-        <div class="row">
-          <div class="col-1">
-            <q-input
-              v-model="login.loginFirst"
-              filled
-              mask="2700"
-              fill-mask="#"
-              readonly />
-          </div>
-          <div class="col-2">
-            <q-input
-              v-model="login.loginLast"
-              filled
-              label="Логин"
-              mask="##-###"
-              fill-mask="#"
-              lazy-rules
-              :rules="[
-                () =>
-                  !formValidate.loginLast.$invalid ||
-                  'Не корректно введён логин',
-              ]" />
-          </div>
-          <div class="col-1"></div>
-          <div class="col-2">
-            <q-select
-              v-model="role"
-              outlined
-              :options="optionsRole"
-              label="Роль" />
-          </div>
-          <div class="col-1"></div>
-          <div class="col-5">
-            <q-btn-group style="min-height: 75%; height: 75%; max-height: 75%">
-              <q-btn
-                push
-                color="warning"
-                class="my-button"
-                @click="onClickButtonSelect">
-                <i class="fa-solid fa-check fa-2x" />&nbsp;&nbsp;
-                <b>Выбрать</b>
-              </q-btn>
-              <q-btn
-                push
-                color="primary"
-                class="my-button"
-                @click="onClickButtonCreate">
-                <i class="fa-solid fa-plus fa-2x" />&nbsp;&nbsp;
-                <b>Создать</b>
-              </q-btn>
-              <q-btn
-                push
-                color="positive"
-                class="my-button"
-                @click="onClickButtonSave">
-                <i class="fa-solid fa-floppy-disk fa-2x" />&nbsp;&nbsp;
-                <b>Сохранить</b>
-              </q-btn>
-              <q-btn
-                push
-                color="negative"
-                class="my-button"
-                @click="onClickButtonDelete">
-                <i class="fa-solid fa-trash fa-2x" />&nbsp;&nbsp;
-                <b>Удалить</b>
-              </q-btn>
-            </q-btn-group>
-          </div>
-        </div>
-      </q-form>
-    </q-card>
-    <q-card>
-      <q-btn-group style="min-height: 75%; height: 75%; max-height: 75%">
-        <q-btn
-          push
-          color="warning"
-          class="my-button"
-          @click="onClickButtonTechWork"
-          :disable="buttonTechWork">
-          <i class="fa-solid fa-check fa-2x" />&nbsp;&nbsp;
-          <b>
-            <span v-if="techWork">Закончить технические работы</span>
-            <span v-else>Начать технические работы</span>
-          </b>
-        </q-btn>
-        <q-input
-          v-if="!techWork"
-          v-model.number="numberTechWork"
-          type="number"
-          outlined
-          label-slot
-          style="max-width: 300px">
-          <template #label>
-            <span class="text-weight-bold text-indigo-10">
-              Тип выполняемой технической работы
-            </span>
-          </template>
-        </q-input>
-      </q-btn-group>
-    </q-card>
-  </div>
-</template>
-
 <style lang="sass">
 .my-button
   color: black !important
+
+.admin-page
+  min-height: 100%
+
+.admin-card
+  width: 100%
+
+.admin-actions
+  width: 100%
 </style>
